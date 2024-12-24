@@ -91,6 +91,12 @@ const DashboardPage = () => {
             return;
          };
 
+         if (data.message === "Token not provided") {
+            localStorage.removeItem("accessToken");
+            navigate("/");
+            return;
+         };
+
          const updatedTasks = allTasks.map((task) =>
             task._id === updatedTask._id? updatedTask : task
          );
@@ -113,6 +119,12 @@ const DashboardPage = () => {
             return;
          };
 
+         if (data.message === "Token not provided") {
+            localStorage.removeItem("accessToken");
+            navigate("/");
+            return;
+         };
+
          const updatedTasks = allTasks.map((task) =>
             task._id === taskId ? { ...task, completed: newStatus } : task
          );
@@ -130,6 +142,12 @@ const DashboardPage = () => {
       try {
          const { data } = await getTasksAPI();
          const sortedTasks = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+         if (data.message === "Token not provided") {
+            localStorage.removeItem("accessToken");
+            navigate("/");
+            return;
+         };
 
          sortedTasks.map((task) => task.isDeleting = false);
 
@@ -170,6 +188,13 @@ const DashboardPage = () => {
             setError(data.error);
             return;
          };
+
+         if (data.message === "Token not provided") {
+            localStorage.removeItem("accessToken");
+            navigate("/");
+            return;
+         };
+
          setAllTasks([data, ...allTasks]);
          applyFilter(filterOption, [...allTasks, data]);
          setNewTask({ title: "", description: "" });
@@ -184,7 +209,7 @@ const DashboardPage = () => {
    return (
       <>
          <h2 className="dashboard-page-heading">Dashboard</h2>
-         {error && <p className="dashboard-error">{error}</p>}
+         {error && <p className="error">{error}</p>}
          <div className="dashboard-page-container">
             <div className="dashboard-page-all-tasks">
                <div className="dashboard-page-portion-title">Your Tasks</div>
