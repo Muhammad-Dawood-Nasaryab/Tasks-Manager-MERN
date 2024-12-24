@@ -1,0 +1,103 @@
+.task-card {
+   background-color: #f5f5f5;
+   margin: 10px;
+   padding: 10px 15px;
+   border: 1px solid #c7c7c7;
+   border-radius: 5px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   transition: transform 0.3s ease-in-out;
+   cursor: pointer;
+}
+
+.task-card:hover {
+   transform: scale(1.02);
+}
+
+.task-card-title {
+   font-size: 20px;
+   font-weight: 600;
+   margin-top: 5px;
+   margin-bottom: 10px;
+}
+
+.task-card-description {
+   margin-top: 5px;
+   font-size: 16px;
+}
+
+.task-card-status {
+   margin-left: 10px;
+   margin-top: 10px;
+   font-size: 12px;
+}
+
+.status-true {
+   display: inline-block;
+   margin-left: 10px;
+   font-weight: 500;
+   color: #28a745;
+}
+
+.status-false {
+   display: inline-block;
+   margin-left: 10px;
+   font-weight: 500;
+   color: #dc3545;
+}
+
+.task-card-created-at {
+   margin-left: 10px;
+   font-size: 12px;
+}
+
+.date {
+   display: inline-block;
+   margin-left: 10px;
+   font-weight: 500;
+   font-size: 12px;
+}
+
+.task-card-buttons {
+   float: right;
+   display: flex;
+   gap: 10px;
+}
+
+.task-card-buttons button {
+   background-color: #a9a9a9;
+   color: #ffffff;
+   border: none;
+   padding: 5px 10px;
+   border-radius: 5px;
+   cursor: pointer;
+   outline: none;
+   transition: background-color 0.1s ease-in-out;
+}
+
+.task-card-buttons button:hover {
+   background-color: #7b7b7b;
+}
+
+.task-card-buttons button:focus {
+   outline: none;
+}
+
+@keyframes fadeOut {
+   0% {
+      padding: 5px 15px;
+      margin: 5px;
+      height: 50%;
+      opacity: 1;
+   }
+   100% {
+      padding: 0;
+      margin: 0;
+      height: 0;
+      opacity: 0;
+      display: none;
+   }
+}
+
+.task-card.fade-out {
+   animation: fadeOut 0.5s;
+}
