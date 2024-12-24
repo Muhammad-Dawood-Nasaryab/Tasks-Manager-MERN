@@ -12,12 +12,12 @@ const app = express();
 
 // CORS setup
 app.use(cors({
-   origin: "http://localhost:5173", // Allowed origin
+   origin: ["http://localhost:5173", "https://tasks-mern.onrender.com"], // Allowed origin
    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
    credentials: true, // Allow cookies and authorization headers
 }));
 app.options("*", cors({
-   origin: "http://localhost:5173",
+   origin: ["http://localhost:5173", "https://tasks-mern.onrender.com"],
    methods: ["GET", "POST", "PUT", "DELETE"],
    credentials: true,
 }));
