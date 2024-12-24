@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import User from "./users.model.js";
+import User from "../models/users.model.js";
 
-import tokenBlacklist from "../../utils/tokenBlacklist.util.js";
+import tokenBlacklist from "../utils/tokenBlacklist.util.js";
 
 dotenv.config();
 

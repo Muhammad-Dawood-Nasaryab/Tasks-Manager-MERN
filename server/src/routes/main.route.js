@@ -1,15 +1,24 @@
 import express from "express";
 
-import authRoutes from "../modules/users/users.route.js";
-import tasksRoutes from "../modules/tasks/tasks.route.js";
+import authRoutes from "./users.route.js";
+import tasksRoutes from "./tasks.route.js";
 
 import authenticated from "../middlewares/auth.middleware.js";
 
-// Making Router
+// Main router initialization
 const router = express.Router();
 
 // Routes
-router.use("/auth", authRoutes);                         // For authentication related routes
-router.use("/tasks", authenticated, tasksRoutes);        // For tasks
+/**
+ * Routes for user authentication (register, login, logout).
+ * Prefix: /api/auth
+ */
+router.use("/auth", authRoutes);
+
+/**
+ * Routes for task management (requires authentication).
+ * Prefix: /api/tasks
+ */
+router.use("/tasks", authenticated, tasksRoutes);
 
 export default router;

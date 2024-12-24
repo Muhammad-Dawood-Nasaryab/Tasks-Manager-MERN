@@ -1,5 +1,5 @@
-import Tasks from "./tasks.model.js";
-import User from "../users/users.model.js";
+import Tasks from "../models/tasks.model.js";
+import User from "../models/users.model.js";
 
 /**
  * @desc - Create a new task

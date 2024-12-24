@@ -1,8 +1,16 @@
 import mongoose from "mongoose";
 
-import connectTasksDB from "./tasks.connection.js";
+import connectTasksDB from "../connections/tasks.connection.js";
 
-// Task Schema
+// Task Schema definition
+/**
+ * Schema for tasks collection in the database.
+ * - `title`: Title of the task (required).
+ * - `description`: Detailed description of the task (required).
+ * - `completed`: Status of the task, defaults to false.
+ * - `user`: Reference to the user who owns the task (required).
+ * - `createdAt`: Timestamp when the task was created, defaults to current date.
+ */
 export const TasksSchema = new mongoose.Schema({
    title: {
       type: String,

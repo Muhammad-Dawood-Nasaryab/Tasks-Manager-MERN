@@ -5,6 +5,12 @@ import tokenBlacklist from "../utils/tokenBlacklist.util.js";
 
 dotenv.config();
 
+/**
+ * Middleware to authenticate the user by verifying the provided JWT.
+ * - Checks if the token exists and is not blacklisted.
+ * - Decodes the token to extract user information and attaches it to the request object.
+ * - If the token is invalid or expired, sends a 401 Unauthorized response.
+ */
 const authenticated = (req, res, next) => {
    const token = req.headers.authorization.split(" ")[1];
    if (!token || tokenBlacklist.has(token)) {

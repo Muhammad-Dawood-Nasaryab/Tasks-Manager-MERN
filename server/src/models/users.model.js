@@ -1,9 +1,16 @@
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
-import connectUsersDB from "./users.connection.js";
+import connectUsersDB from "../connections/users.connection.js";
 
-// User Schema
+// User Schema definition
+/**
+ * Schema for users collection in the database.
+ * - `username`: Unique username of the user (required).
+ * - `email`: Email address of the user (required, unique).
+ * - `password`: Encrypted password of the user (required).
+ * - `admin`: Boolean indicating if the user has admin privileges, defaults to false.
+ */
 export const UserSchema = new mongoose.Schema({
    username: { 
       type: String, 
