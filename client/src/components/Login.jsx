@@ -17,7 +17,7 @@ const Login = () => {
    const [showPassword, setShowPassword] = useState(false);
 
    const { loginAPI } = useAuthAPI();
-   const { loginUser } = useAuth();
+   const { loginUser, setRefreshToken } = useAuth();
    const { toggleLoading } = useLoading();
 
    // Function that handles submition of form
@@ -41,7 +41,8 @@ const Login = () => {
             return; // End the function
          };
 
-         loginUser(data.token); // Save token
+         loginUser(data.accessToken); // Save token
+         setRefreshToken(data.refreshToken); // Save refresh token
       } catch (error) {
          setError("Failed to login, Please try later");
       } finally {

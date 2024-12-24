@@ -5,11 +5,15 @@ import { useState, createContext, useContext } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
+   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("accessToken"));
 
    const loginUser = (token) => {
-      localStorage.setItem("token", token);
+      localStorage.setItem("accessToken", token);
       setIsAuthenticated(true);
+   };
+
+   const setRefreshToken = (refreshToken) => {
+      document.cookie = `refreshToken=${refreshToken}; HttpOnly; Secure; Path=/; Max-Age=${7 * 24 * 60 * 60}`;
    };
 
    const logoutUser = () => {
@@ -18,7 +22,7 @@ export const AuthProvider = ({ children }) => {
    };
 
    return (
-      <AuthContext.Provider value={{ isAuthenticated, loginUser, logoutUser }}>
+      <AuthContext.Provider value={{ isAuthenticated, loginUser, logoutUser, setRefreshToken }}>
          { children }
       </AuthContext.Provider>
    );

@@ -46,13 +46,15 @@ export const loginUser = async (req, res, next) => {
    const userCredentials = req.body;
 
    try {
+      // Find user by email
       const user = await User.findOne({ email: userCredentials.email });
       if (!user) {
          const error = new Error("User not found");
          error.status = 404;
          throw error;
-      };
+      }
 
+      // Compare passwords
       const isMatch = await bcrypt.compare(
          userCredentials.password,
          user.password,
@@ -62,22 +64,30 @@ export const loginUser = async (req, res, next) => {
          const error = new Error("Invalid password");
          error.status = 400;
          throw error;
-      };
+      }
 
-      const token = jwt.sign(
+      // Generate Access Token
+      const accessToken = jwt.sign(
          { id: user._id, email: user.email },
          process.env.JWT_SECRET,
-         { expiresIn: "1h" }
+         { expiresIn: "1h" } // Set short expiry for access tokens
       );
 
-      res.status(200)
-         .json({ 
-            message: "Successfull", 
-            data: { token, user },
-         });
+      // Generate Refresh Token
+      const refreshToken = jwt.sign(
+         { id: user._id, email: user.email },
+         process.env.JWT_REFRESH_SECRET,
+         { expiresIn: "7d" } // Longer expiry for refresh tokens
+      );
+
+      // Send tokens and user data in response
+      res.status(200).json({
+         message: "Successfully logged in",
+         data: { accessToken, refreshToken, user },
+      });
    } catch (error) {
       next(error);
-   };
+   }
 };
 
 /**
@@ -110,3 +120,35 @@ export const logoutUser = async (req, res, next) => {
       res.status(500).json({ error: "Internal Server Error" });
    }
 };
+
+/**
+ * @desc - Refresh access and refresh tokens
+ * @route - POST /api/auth/refresh
+ * @auth - Not Required
+ */
+export const refreshToken = async (req, res, next) => {
+   try {
+      const refreshToken = req.cookies.refreshToken;
+
+      if (!refreshToken) {
+         return res.status(401).json({ message: "Refresh token missing" });
+      }
+
+      jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+         if (err) {
+            return res.status(401).json({ message: "Invalid refresh token" });
+         }
+
+         const newAccessToken = jwt.sign(
+            { id: decoded.id, email: decoded.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+         );
+
+         res.status(200).json({ accessToken: newAccessToken });
+      });
+   } catch (error) {
+      next(error);
+   }
+};
+
