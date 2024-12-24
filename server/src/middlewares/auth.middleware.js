@@ -12,7 +12,14 @@ dotenv.config();
  * - If the token is invalid or expired, sends a 401 Unauthorized response.
  */
 const authenticated = (req, res, next) => {
-   const token = req.headers.authorization.replace("Bearer ", "");
+   let token = req.headers["authorization"]; // Use lowercase for headers
+   if (!token) {
+      return res.status(401).json({ message: "Token not provided" });
+   }
+
+   // Remove the "Bearer " prefix from the token
+   token = token.startsWith("Bearer ") ? token.slice(7) : token;
+
    if (!token || tokenBlacklist.has(token)) {
       return res.status(401).json({ message: "Token not provided" });
    };

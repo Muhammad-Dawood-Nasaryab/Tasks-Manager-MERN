@@ -17,7 +17,7 @@ export const createTask = async (req, res, next) => {
          throw error;
       };
 
-      if (!newTask.user) {s
+      if (!newTask.user) {
          newTask.user = req.userId;
       };
 

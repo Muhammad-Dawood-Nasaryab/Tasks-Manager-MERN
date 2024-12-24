@@ -10,8 +10,19 @@ import errorHandler from "./middlewares/error.middleware.js";
 // Initializing express
 const app = express();
 
+// CORS setup
+app.use(cors({
+   origin: "http://localhost:5173", // Allowed origin
+   methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+   credentials: true, // Allow cookies and authorization headers
+}));
+app.options("*", cors({
+   origin: "http://localhost:5173",
+   methods: ["GET", "POST", "PUT", "DELETE"],
+   credentials: true,
+}));
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
